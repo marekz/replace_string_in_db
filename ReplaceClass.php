@@ -18,10 +18,9 @@ class ReplaceClass {
     private $password = 'root';
     private $database = 'testdbkp';
     private $newDbConnect;
-    private $regex_pattern = '/[„”\'\/]/';
-    private $pattern = array("/„/","/”/","/'/","/\//","/\"/","/</","/>/","/\|/","/;/","/\)/","/\(/","/“/","/\?/","/«/","/»/","/\./");
-    private $replacement = array("","","","","","","",""," ","","","","","","");
-// « Libella »
+    private $pattern = array("/„/", "/”/", "/'/", "/\//", "/\"/", "/</", "/>/", "/\|/", "/;/", "/\)/", "/\(/", "/“/", "/\?/", "/«/", "/»/");
+    private $replacement = array("", "", "", "", "", "", "", "", " ", "", "", "", "", "");
+
     public function __construct() {
         $this->newDbConnect = new DBConnect($this->host, $this->user, $this->password, $this->database);
 
@@ -33,14 +32,22 @@ class ReplaceClass {
         $result = $this->newDbConnect->execute($sql);
 
         foreach ($result as $rekord) {
-            
-            $tag = str_replace('\\', '', $rekord['value']);
-            
-//            if(preg_match($this->regex_pattern, $tag)){
-                $tag = preg_replace($this->pattern, $this->replacement, $tag);
-                printf("<p>Value: %s</p>", $tag);
-//            }
-            
+            $db_result = $rekord['value'];
+            $id = $rekord['id'];
+            $result = $this->compareResult($db_result);
+            printf($result);
+        }
+    }
+
+    private function compareResult($data) {
+        $tag = str_replace('\\', '', $data);
+        $tag = preg_replace($this->pattern, $this->replacement, $tag);
+        printf("<p>Org_data: %s, Tag: %s</p>", $data, $tag);
+        
+        if($data !== $tag) {
+            return true;
+        } else {
+            return false;
         }
     }
 
