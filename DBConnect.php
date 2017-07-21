@@ -38,5 +38,4 @@ class DBConnect implements DBConnectInterface {
         mysqli_close($this->conn);
         return null;
     }
-
 }
