@@ -11,7 +11,7 @@ class ReplaceClass {
     private $host = '127.0.0.1';
     private $user = 'root';
     private $password = 'root';
-    private $database = 'kulturaparyskadump';
+    private $database = 'testdb';
     private $newDbConnect;
     private $org_value;
     private $org_id_record;
